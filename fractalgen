@@ -5,6 +5,9 @@
 #include <tchar.h>
 #include <strsafe.h>
 
+#include <stb_image_write.h>
+
+
 
 //declare the size of your square image
 const unsigned long long int pixs = 400;
@@ -80,8 +83,155 @@ void polyd(double a[2], double out[2])
 double polyroots[6][2]= {{-1,0},{1,0},{-.5,.866025},{.5,.866025}, {-.5,-.866025}, {.5,-.866025}};
 
 //hard code color rgb values
-char* colors = char[20*12];
-colors = {"255 204 229 204 204 255 204 255 255 204 255 204 255 255 204 255 153 204 204 153 255 153 153 255 204 255 153 255 102 102 255 255 102 051 051 255 051 255 051 255 255 051 255 051 051 255 000 127 000 102 204 000 204 102 102 204 000 074 112 150 "};
+	char** cherry_pink = new char* [3];
+	cherry_pink[0] = new char[4];
+	cherry_pink[1] = new char[4];
+	cherry_pink[2] = new char[4];
+	strcpy(cherry_pink[0], "255");
+	strcpy(cherry_pink[1], "204");
+	strcpy(cherry_pink[2], "229");
+
+	char** easter_blue = new char* [3];
+	easter_blue[0] = new char[4];
+	easter_blue[1] = new char[4];
+	easter_blue[2] = new char[4];
+	strcpy(easter_blue[0], "204");
+	strcpy(easter_blue[1], "204");
+	strcpy(easter_blue[2], "255");
+
+
+	char** cyan = new char* [3];
+	cyan[0] = new char[4];
+	cyan[1] = new char[4];
+	cyan[2] = new char[4];
+	strcpy(cyan[0], "204");
+	strcpy(cyan[1], "255");
+	strcpy(cyan[2], "255");
+
+	char** cherry_green = new char* [3];
+	cherry_green[0] = new char[4];
+	cherry_green[1] = new char[4];
+	cherry_green[2] = new char[4];
+	strcpy(cherry_green[0], "204");
+	strcpy(cherry_green[1], "255");
+	strcpy(cherry_green[2], "204");
+
+	char** light_yellow = new char* [3];
+	light_yellow[0] = new char[4];
+	light_yellow[1] = new char[4];
+	light_yellow[2] = new char[4];
+	strcpy(light_yellow[0], "255");
+	strcpy(light_yellow[1], "255");
+	strcpy(light_yellow[2], "204");
+
+	char** pink = new char* [3];
+	pink[0] = new char[4];
+	pink[1] = new char[4];
+	pink[2] = new char[4];
+	strcpy(pink[0], "255");
+	strcpy(pink[1], "153");
+	strcpy(pink[2], "204");
+
+	char** blurple = new char* [3];
+	blurple[0] = new char[4];
+	blurple[1] = new char[4];
+	blurple[2] = new char[4];
+	strcpy(blurple[0], "153");
+	strcpy(blurple[1], "153");
+	strcpy(blurple[2], "255");
+
+	char** easter_green = new char* [3];
+	easter_green[0] = new char[4];
+	easter_green[1] = new char[4];
+	easter_green[2] = new char[4];
+	strcpy(easter_green[0], "204");
+	strcpy(easter_green[1], "255");
+	strcpy(easter_green[2], "153");
+
+	char** light_red = new char* [3];
+	light_red[0] = new char[4];
+	light_red[1] = new char[4];
+	light_red[2] = new char[4];
+	strcpy(light_red[0], "255");
+	strcpy(light_red[1], "102");
+	strcpy(light_red[2], "102");
+
+	char** yellow = new char* [3];
+	yellow[0] = new char[4];
+	yellow[1] = new char[4];
+	yellow[2] = new char[4];
+	strcpy(yellow[0], "255");
+	strcpy(yellow[1], "255");
+	strcpy(yellow[2], "102");
+
+	char** blue = new char* [3];
+	blue[0] = new char[4];
+	blue[1] = new char[4];
+	blue[2] = new char[4];
+	strcpy(blue[0], "051");
+	strcpy(blue[1], "051");
+	strcpy(blue[2], "255");
+
+	char** green = new char* [3];
+	green[0] = new char[4];
+	green[1] = new char[4];
+	green[2] = new char[4];
+	strcpy(green[0], "051");
+	strcpy(green[1], "255");
+	strcpy(green[2], "051");
+
+	char** orange = new char* [3];
+	orange[0] = new char[4];
+	orange[1] = new char[4];
+	orange[2] = new char[4];
+	strcpy(orange[0], "255");
+	strcpy(orange[1], "188");
+	strcpy(orange[2], "051");
+
+	char** magenta = new char* [3];
+	magenta[0] = new char[4];
+	magenta[1] = new char[4];
+	magenta[2] = new char[4];
+	strcpy(magenta[0], "255");
+	strcpy(magenta[1], "000");
+	strcpy(magenta[2], "102");
+
+	char** turquose = new char* [3];
+	turquose[0] = new char[4];
+	turquose[1] = new char[4];
+	turquose[2] = new char[4];
+	strcpy(turquose[0], "000");
+	strcpy(turquose[1], "204");
+	strcpy(turquose[2], "102");
+
+	char** brat_green = new char* [3];
+	brat_green[0] = new char[4];
+	brat_green[1] = new char[4];
+	brat_green[2] = new char[4];
+	strcpy(brat_green[0], "102");
+	strcpy(brat_green[1], "204");
+	strcpy(brat_green[2], "000");
+
+	char** deep_blue = new char* [3];
+	deep_blue[0] = new char[4];
+	deep_blue[1] = new char[4];
+	deep_blue[2] = new char[4];
+	strcpy(deep_blue[0], "074");
+	strcpy(deep_blue[1], "112");
+	strcpy(deep_blue[2], "150");
+
+//choose what colors you want
+	char*** colors = new char**[4];
+	colors[0 ]= cherry_pink;
+	colors[1] = cherry_green;
+	colors[2] = easter_blue;
+	colors[3] = cyan;
+	colors[4] = light_yellow;
+	colors[5] = light_red;
+	colors[6] = deep_blue;
+	 
+
+
 
 void fractalLine(int linen, int *picks)
 	int len=6;
@@ -129,7 +279,7 @@ void fractalLine(int linen, int *picks)
 			}
 		}
 	if(!flag)
-		picks[linen*pixs+(i)]=19;
+		picks[linen*pixs+(i)]=-1;
 	flag=false;
 	}
 }
@@ -166,6 +316,26 @@ int main()
 	}
 	fclose(we);
 	
+	const int width = pixs;
+	const int height = pixs;
+	const int channels = 3; // RGB
+
+    // Create an image buffer
+    unsigned char* image = new unsigned char[width * height * channels];
+
+    // Fill the image buffer with color (e.g., a gradient or solid color)
+    for (int y = 0; y < height; ++y) {
+        for (int x = 0; x < width; ++x) {
+            int index = (y * width + x) * channels;
+            image[index + 0] = ; // Red
+            image[index + 1] = ; // Green
+            image[index + 2] = ; // Blue
+        }
+    }
+
+    // Write the image to a file
+    stbi_write_png("output.png", width, height, channels, image, width * channels);
+
 
 	
 	return 0;

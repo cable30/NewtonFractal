@@ -1,0 +1,172 @@
+#include <math.h>
+#include <iostream>
+#incldue <string>
+#include <windows.h>
+#include <tchar.h>
+#include <strsafe.h>
+
+
+//declare the size of your square image
+const unsigned long long int pixs = 400;
+
+//header to top of file
+const char* outputstart = "P3\n400 400\n255\n";
+
+//define the necessary operations on complex numbers, being held as 2-dim double arrays
+void sum(double a[2], double b[2], double out[2])
+{
+	out[0]=a[0]+b[0];
+	out[1]=a[1]+b[1];
+}
+void subt(double a[2], double b[2], double out[2])
+{
+	out[0]=a[0]-b[0];
+	out[1]=a[1]-b[1];
+}
+void mult(double a[2], double b[2], double out[2])
+{
+	out[0]=a[0]*b[0]-a[1]*b[1];
+	out[1]=a[0]*b[1]+a[1]*b[0];
+}
+//conjuate
+void conj(double a[2], double out[2])
+{
+	out[0]=a[0];
+	out[1]=-a[1];
+}
+//divide (a+bi)/(c+di)=(a+bi)(c-di)/(c^2-d^2)
+void div(double a[2], double b[2], double out[2])
+{
+	double con[2];
+	double step[2];
+	conj(b,con); //conjuate denominator
+	mult(a,con,step); //multiply numerator by denominator's conjugate
+	double denm=pow(b[0],2)+pow(b[1],2); //find c^2-d^2
+	out[0]=step[0]/denm; //real part
+	out[1]=step[1]/denm; //imaginary part
+}
+//multiply complex by real
+void scale(double a[2], double b, double out[2])
+{
+	out[0]=b*a[0];
+	out[1]=b*a[1];
+}
+//find the modulus of complex number (complex analog to absolute value, distance from 0)
+void mody(double a[2], double out)
+{
+	out=sqrt(pow(a[0],2)+pow(a[1],2));
+}
+
+//hard code in the polynomial function x^6-1
+void poly(double a[2], double out[2])
+{
+	double mid[2];
+	mult(a,a,mid); //x^2
+	mult(mid, mid, out); //x^4
+	mult(mid, out, out); x^6
+	out[0]=out[0]-1;
+}
+
+//hard code in the derivative 6x^5
+void polyd(double a[2], double out[2])
+{
+	mult(a,a,out); //x^2
+	mult(out, out, out); //x^4
+	mult(out, a, out); //x^5
+	scale(out, 6, out);
+}
+
+//hard code the roots
+double polyroots[6][2]= {{-1,0},{1,0},{-.5,.866025},{.5,.866025}, {-.5,-.866025}, {.5,-.866025}};
+
+//hard code color rgb values
+char* colors = char[20*12];
+colors = {"255 204 229 204 204 255 204 255 255 204 255 204 255 255 204 255 153 204 204 153 255 153 153 255 204 255 153 255 102 102 255 255 102 051 051 255 051 255 051 255 255 051 255 051 051 255 000 127 000 102 204 000 204 102 102 204 000 074 112 150 "};
+
+void fractalLine(int linen, int *picks)
+	int len=6;
+	double center =0;
+	double length =4;
+	double w = abs(center-length);
+	double bts = w/pixs;
+	double c[2]={0,0};
+	double lowend[2];
+	lowend[0] = center-length/2;
+	lowend[1] = center-length/2;
+
+	double temp[2];
+	double temp2[2];
+	double temp3[2];
+	
+	double mtemp[1]={0};
+	double modu[1];
+	
+	bool flag=0;
+	
+	for(int i=0; i<pixs; i++)
+	{
+		c[0] = lowend[0] + (bts/2) + (bts*i);
+		c[1] = lowend[1] + (bts/2) + (bts*linen);
+		mody(c, modu);
+		for(ii=0;ii<its;ii++)
+		{
+			poly(c, temp);
+			polyd(c, temp2);
+			div(temp, temp2, temp3);
+			subt(c, temp3, b);
+			c[0]=b[0];
+			c[1]=b[1];
+		}
+		for(ii=0; ii<len; ii++)
+		{
+			subt(c, roots[ii],temp);
+			mody(temp, mtemp);
+			if (mtemp[0]<=.00001)
+			{
+				picks[linen*pixs + i]=ii;
+				flag = true;
+				break;
+			}
+		}
+	if(!flag)
+		picks[linen*pixs+(i)]=19;
+	flag=false;
+	}
+}
+
+int main()
+{
+	FILE* we=fopen("text.ppm","w");
+	fprintf(we,outputstart);
+	const int width=pixs;
+	int* picks = new int[width*width];
+	
+		for(line=0; line<pixs; line++)
+	{
+		fractalLine(i, picks);
+	}
+	
+	char* no = new char[pixs*(12-3)];
+	unsigned long long int well =0;
+	unsigned long long int wrote =0;
+	
+	for(unsigned long long int e=0; e<pixs; e++)
+	{
+		for(unsigned long long int ee=0; ee<pixs; ee+)
+		{
+			well=picks[e*pixs+ee];
+			for(int eee=0; eee<12;eee+)
+			{
+				no[wrote] = colors[(well * 12) + eee];
+				wrote++;
+			}
+		no[wrote]='\n';
+		fprintf(we,no);
+		wrote=0;
+	}
+	fclose(we);
+	
+
+	
+	return 0;
+}
